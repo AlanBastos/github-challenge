@@ -1,13 +1,15 @@
 package com.example.githubchallenge.model
 
+import com.google.gson.Gson
+import com.google.gson.annotations.SerializedName
+
 
 data class Repository(
-    val id: Long,
-    val name: String,
-    val full_name: String,
-    val description: String,
-    val stargazers_count: Long,
-    val forks_count: Long,
-    val owner: Owner,
-
-)
+    @SerializedName("id") val id: Long,
+    @SerializedName("name") val name: String,
+    @SerializedName("full_name") val full_name: String,
+    @SerializedName("description") val description: String,
+    @SerializedName("stargazers_count") val stargazers_count: Long,
+    @SerializedName("forks_count") val forks_count: Long,
+    @SerializedName("owner") val owner: Owner,
+):java.io.Serializable

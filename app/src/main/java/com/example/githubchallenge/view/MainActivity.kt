@@ -1,5 +1,6 @@
 package com.example.githubchallenge.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +18,7 @@ import com.example.githubchallenge.utils.RecyclerViewItemDecoration
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MainActivity : AppCompatActivity(), RepositoryContract.View {
+class MainActivity : AppCompatActivity(), RepositoryContract.View{
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var presenter: RepositoryContract.Presenter
@@ -45,6 +46,15 @@ class MainActivity : AppCompatActivity(), RepositoryContract.View {
 
         recyclerView.adapter = adapter
 
+        adapter.setOnClickListener(object :
+        RepositoryAdapter.OnClickListener {
+            override fun onClick(position: Int, repository: Repository) {
+                val intent = Intent(this@MainActivity, PullRequestActivity::class.java)
+                intent.putExtra(NEXT_SCREEN, repository)
+                startActivity(intent)
+            }
+
+        })
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.github.com/")
@@ -82,4 +92,16 @@ class MainActivity : AppCompatActivity(), RepositoryContract.View {
     override fun showPullRequests(pullRequests: List<PullRequest>) {
 
     }
+
+    companion object {
+        val NEXT_SCREEN="details_screen"
+    }
+
+//    override fun onRepositoryItemClicked(repository: Repository) {
+//        val fragment = PullRequestFragment.newInstance(repository)
+//        supportFragmentManager.beginTransaction()
+//            .replace(R.id.fragment_container, fragment)
+//            .addToBackStack(null)
+//            .commit()
+//    }
 }

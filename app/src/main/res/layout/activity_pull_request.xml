@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="mainactivity"
-            type="com.example.githubchallenge.view.MainActivity" />
+            name="pullrequestactivity"
+            type="com.example.githubchallenge.view.PullRequestActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,9 +14,8 @@
         android:layout_height="match_parent"
         android:background="#0D1117">
 
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/prRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
