@@ -7,7 +7,7 @@
 
     <!-- Cor da borda -->
     <stroke
-        android:width="2dp"
+        android:width="1dp"
         android:color="#E5EDF3" />
 
     <!-- Arredondamento dos cantos -->

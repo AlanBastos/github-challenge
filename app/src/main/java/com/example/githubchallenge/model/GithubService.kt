@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface GithubService {
 
-    @GET("search/repositories")
+    @GET("search/repositories?")
     fun getJavaPopRepositories(
         @Query("q") language: String = "language:java",
         @Query("sort") sort: String = "stars",

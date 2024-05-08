@@ -57,6 +57,10 @@ dependencies {
     val retrofitVersion = "2.11.0"
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
 
+    //gsonConverter
+    val gsonConverterVersion = "2.11.0"
+    implementation("com.squareup.retrofit2:converter-gson:$gsonConverterVersion")
+
     //gson
     val gsonVersion = "2.10.1"
     implementation("com.google.code.gson:gson:$gsonVersion")

@@ -7,9 +7,10 @@ import com.bumptech.glide.Glide
 import com.example.githubchallenge.R
 import com.example.githubchallenge.databinding.ItemRepositoryBinding
 import com.example.githubchallenge.model.Repository
+import com.example.githubchallenge.utils.FormatToK.Companion.formatToK
 
 
-class RepositoryAdapter(private val repositories: List<Repository>) :
+class RepositoryAdapter(private val repositories: MutableList<Repository>) :
     RecyclerView.Adapter<RepositoryAdapter.RepositoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) :
@@ -37,8 +38,20 @@ class RepositoryAdapter(private val repositories: List<Repository>) :
             binding.tvUsername.text = repository.owner.login
             binding.tvRepositoryName.text = repository.name
             binding.tvRepositoryDescription.text = repository.description
-            binding.tvStars.text = repository.stargazers_count.toString()
-            binding.tvFork.text = repository.forks_count.toString()
+
+            val starText = itemView.context.resources.getString(
+                R.string.stars_count, repository.stargazers_count.formatToK().replace(
+                    ",","."
+                )
+            )
+            val forkText = itemView.context.resources.getString(
+                R.string.fork_count, repository.stargazers_count.formatToK().replace(
+                    ",","."
+                )
+            )
+            binding.tvStars.text = starText
+            binding.tvFork.text = forkText
+
 
             Glide.with(itemView.context)
                 .load(repository.owner.avatar_url)
@@ -47,6 +60,11 @@ class RepositoryAdapter(private val repositories: List<Repository>) :
                 .into(binding.avatar)
 
         }
+    }
+
+    fun addAll(newRepositories: List<Repository>) {
+        repositories.addAll(newRepositories)
+        notifyDataSetChanged()
     }
 
 }

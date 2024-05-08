@@ -2,4 +2,6 @@
     <string name="app_name">Github challenge</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fork_count">Fork %s</string>
+    <string name="stars_count">Stars %s</string>
 </resources>
