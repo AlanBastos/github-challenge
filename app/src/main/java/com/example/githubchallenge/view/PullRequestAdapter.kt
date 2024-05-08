@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.TransformationUtils.circleCrop
 import com.example.githubchallenge.R
 import com.example.githubchallenge.databinding.ItemPullrequestBinding
 import com.example.githubchallenge.model.PullRequest
