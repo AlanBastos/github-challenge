@@ -8,7 +8,7 @@ import com.example.githubchallenge.R
 import com.example.githubchallenge.databinding.ItemPullrequestBinding
 import com.example.githubchallenge.model.PullRequest
 
-class PullRequestAdapter(private val pullRequests: List<PullRequest>) :
+class PullRequestAdapter(private val pullRequests: MutableList<PullRequest>) :
     RecyclerView.Adapter<PullRequestAdapter.PullRequestViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int
@@ -45,6 +45,11 @@ class PullRequestAdapter(private val pullRequests: List<PullRequest>) :
                 .into(binding.prAvatar)
         }
 
+    }
+
+    fun addAll(pullRequestsList: List<PullRequest>) {
+        pullRequests.addAll(pullRequestsList)
+        notifyDataSetChanged()
     }
 
 }

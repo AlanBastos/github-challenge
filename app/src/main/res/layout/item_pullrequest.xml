@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="#0D1117">
 
         <LinearLayout
@@ -45,13 +45,6 @@
                 android:text="Username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-
-            <View
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="6dp"
-                android:background="#30363E"
-                android:layout_width="match_parent"
-                android:layout_height="1.5dp"/>
 
             <TextView
                 android:id="@+id/prTvPullRequestTitle"

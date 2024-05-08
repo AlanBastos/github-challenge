@@ -14,10 +14,10 @@ interface GithubService {
         @Query("page") page: Int
     ): Call<RepositoryResponse>
 
-    @GET("repos/{owner}/{repo/pulls}")
+    @GET("repos/{owner}/{repo}/pulls")
     fun getPullRequests(
         @Path("owner") owner: String,
         @Path("repo") repo: String
-    ): Call<PullRequest>
+    ): Call<List<PullRequest>>
 
 }

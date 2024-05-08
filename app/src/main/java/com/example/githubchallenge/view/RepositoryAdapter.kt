@@ -51,7 +51,6 @@ class RepositoryAdapter(private val repositories: MutableList<Repository>) :
             .into(holder.avatarImg)
 
         holder.itemView.setOnClickListener {
-//            itemClickListener.onRepositoryItemClicked(repository)
             if (onClickListener != null) {
                 onClickListener!!.onClick(position, repository)
             }

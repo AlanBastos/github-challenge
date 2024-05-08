@@ -2,6 +2,7 @@ package com.example.githubchallenge.presenter
 
 import com.example.githubchallenge.contract.RepositoryContract
 import com.example.githubchallenge.model.GithubService
+import com.example.githubchallenge.model.PullRequest
 import com.example.githubchallenge.model.RepositoryResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -45,6 +46,20 @@ class RepositoryPresenter(private val view: RepositoryContract.View,
     }
 
     override fun getPullRequests(owner: String, repo: String) {
+        service.getPullRequests(owner,repo).enqueue(object : Callback<List<PullRequest>>{
+            override fun onResponse(call: Call<List<PullRequest>>, response: Response<List<PullRequest>>) {
+                if (response.isSuccessful) {
+                    val pullRequest = response.body() ?: emptyList()
+                    view.showPullRequests(pullRequest)
+                } else {
+                    view.showError("Failed to fetch pull requests")
+                }
+            }
 
+            override fun onFailure(call: Call<List<PullRequest>>, t: Throwable) {
+                view.showError(t.message ?: "Unknown error")
+            }
+
+        })
     }
 }

@@ -17,6 +17,7 @@ import com.example.githubchallenge.presenter.RepositoryPresenter
 import com.example.githubchallenge.utils.RecyclerViewItemDecoration
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.Serializable
 
 class MainActivity : AppCompatActivity(), RepositoryContract.View{
 
@@ -49,9 +50,11 @@ class MainActivity : AppCompatActivity(), RepositoryContract.View{
         adapter.setOnClickListener(object :
         RepositoryAdapter.OnClickListener {
             override fun onClick(position: Int, repository: Repository) {
-                val intent = Intent(this@MainActivity, PullRequestActivity::class.java)
-                intent.putExtra(NEXT_SCREEN, repository)
+                val intent = Intent(this@MainActivity, PullRequestActivity::class.java).apply {
+                    putExtra("repository", repository as Serializable)
+                }
                 startActivity(intent)
+
             }
 
         })
@@ -93,15 +96,4 @@ class MainActivity : AppCompatActivity(), RepositoryContract.View{
 
     }
 
-    companion object {
-        val NEXT_SCREEN="details_screen"
-    }
-
-//    override fun onRepositoryItemClicked(repository: Repository) {
-//        val fragment = PullRequestFragment.newInstance(repository)
-//        supportFragmentManager.beginTransaction()
-//            .replace(R.id.fragment_container, fragment)
-//            .addToBackStack(null)
-//            .commit()
-//    }
 }
