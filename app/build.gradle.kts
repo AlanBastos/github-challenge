@@ -1,14 +1,16 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.dagger.hilt.android")
+    id("kotlin-kapt")
 }
 
 android {
-    namespace = "com.example.myapplication"
+    namespace = "com.example.githubchallenge"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.myapplication"
+        applicationId = "com.example.githubchallenge"
         minSdk = 30
         targetSdk = 34
         versionCode = 1
@@ -33,6 +35,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
 }
 
 dependencies {
@@ -44,4 +47,27 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+
+    //retrofit
+    val retrofitVersion = "2.11.0"
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+
+    //glide
+    val glideVersion = "4.16.0"
+    implementation("com.github.bumptech.glide:glide:$glideVersion")
+
+    //Coroutines
+    val coroutinesVersion = "1.3.9"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+
+    //Hilt
+    val hilVersion = "2.44"
+    implementation("com.google.dagger:hilt-android:$hilVersion")
+    kapt("com.google.dagger:hilt-android-compiler:$hilVersion")
+
+    // LiveData
+    val lifecycleVersion = "2.7.0"
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
+
 }
