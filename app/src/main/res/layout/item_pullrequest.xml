@@ -4,8 +4,8 @@
 
     <data>
         <variable
-            name="repository"
-            type="com.example.githubchallenge.model.Repository" />
+            name="pullrequest"
+            type="com.example.githubchallenge.model.PullRequest" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
