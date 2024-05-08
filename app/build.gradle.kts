@@ -57,6 +57,10 @@ dependencies {
     val retrofitVersion = "2.11.0"
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
 
+    //gson
+    val gsonVersion = "2.10.1"
+    implementation("com.google.code.gson:gson:$gsonVersion")
+
     //glide
     val glideVersion = "4.16.0"
     implementation("com.github.bumptech.glide:glide:$glideVersion")
@@ -73,5 +77,6 @@ dependencies {
     // LiveData
     val lifecycleVersion = "2.7.0"
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
+
 
 }
