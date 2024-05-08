@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="pullrequest"
+            type="com.example.githubchallenge.model.PullRequest" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#0D1117">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:cardCornerRadius="200dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/prAvatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/ic_launcher" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/prTvUsername"
+                android:textColor="#E5EDF3"
+                android:layout_marginTop="8dp"
+                android:textSize="20sp"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <View
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:background="#30363E"
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"/>
+
+            <TextView
+                android:id="@+id/prTvPullRequestTitle"
+                android:textColor="#E5EDF3"
+                android:textSize="24sp"
+                android:text="Título pull request"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/prTvBodyPullRequest"
+                android:textColor="#E5EDF3"
+                android:ellipsize="end"
+                android:textSize="16sp"
+                android:text="Body Pull request lorem ipsum dolor sit amet lorem lorem ipsum dolor sit amet lorem lorem..."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+                <TextView
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/prTvCreateAt"
+                    android:textColor="#E5EDF3"
+                    android:text="Criado em :"
+                    android:drawablePadding="8dp"
+                    android:textSize="18dp"
+                    android:gravity="center_vertical"
+                    android:drawableLeft="@drawable/baseline_calendar_month_24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
