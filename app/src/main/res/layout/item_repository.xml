@@ -62,7 +62,7 @@
             android:ellipsize="end"
             android:text="Descrição repositório lorem ipsum dolor sit amet lorem lorem ipsum dolor sit amet lorem lorem..."
             android:textColor="#E5EDF3"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
 
         <LinearLayout

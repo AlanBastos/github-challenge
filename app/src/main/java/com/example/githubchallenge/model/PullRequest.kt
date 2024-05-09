@@ -1,9 +1,11 @@
 package com.example.githubchallenge.model
 
+import com.google.gson.annotations.SerializedName
+
 data class PullRequest(
-    val id: Long,
-    val title: String,
-    val user: User,
-    val created_at: String,
-    val body: String
-)
+    @SerializedName("id") val id: Long,
+    @SerializedName("title") val title: String,
+    @SerializedName("user") val user: User,
+    @SerializedName("created_at") val created_at: String,
+    @SerializedName("body") val body: String
+):java.io.Serializable

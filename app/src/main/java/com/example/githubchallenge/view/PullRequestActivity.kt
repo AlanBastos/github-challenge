@@ -8,13 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.githubchallenge.R
 import com.example.githubchallenge.contract.RepositoryContract
 import com.example.githubchallenge.databinding.ActivityPullRequestBinding
-import com.example.githubchallenge.model.GithubService
 import com.example.githubchallenge.model.PullRequest
 import com.example.githubchallenge.model.Repository
+import com.example.githubchallenge.presenter.GithubRepository
 import com.example.githubchallenge.presenter.RepositoryPresenter
 import com.example.githubchallenge.utils.RecyclerViewItemDecoration
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
 
 class PullRequestActivity : AppCompatActivity(), RepositoryContract.View {
 
@@ -29,44 +28,25 @@ class PullRequestActivity : AppCompatActivity(), RepositoryContract.View {
         val view = binding.root
         setContentView(view)
 
-        var repository: Repository? = null
+        val githubRepository = GithubRepository()
 
-         repository = intent.getSerializableExtra("repository") as Repository?
-        if (repository != null) {
-            // Faça o que for necessário com o objeto Repository
-            // Por exemplo, exiba seus valores em TextViews
-//            binding.tvRepositoryName.text = repository.name
-//            binding.tvRepositoryDescription.text = repository.description
-            // E assim por diante...
-        } else {
-            // Trate o caso em que o objeto Repository é nulo
-            Toast.makeText(this, "Objeto Repository não encontrado", Toast.LENGTH_SHORT).show()
+        val repository: Repository? = intent.getSerializableExtra("repository") as Repository?
+        if (repository == null) {
+            Toast.makeText(this, "Repository object not found", Toast.LENGTH_SHORT).show()
         }
 
 
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
         recyclerView = binding.prRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
-
         adapter = PullRequestAdapter(mutableListOf())
-
         recyclerView.layoutManager = layoutManager
-
         recyclerView.addItemDecoration(RecyclerViewItemDecoration(this, R.drawable.recyclerview_divider))
-
         adapter.notifyDataSetChanged()
-
         recyclerView.adapter = adapter
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.github.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
 
-        val service = retrofit.create(GithubService::class.java)
-        presenter = RepositoryPresenter(this, service)
-
+        presenter = RepositoryPresenter(this, githubRepository)
         presenter.getPullRequests(repository!!.owner.login,repository.name )
     }
 
@@ -74,6 +54,7 @@ class PullRequestActivity : AppCompatActivity(), RepositoryContract.View {
     }
 
     override fun showError(message: String) {
+        Toast.makeText(this,message,Toast.LENGTH_LONG).show()
     }
 
     override fun showPullRequests(pullRequests: List<PullRequest>) {

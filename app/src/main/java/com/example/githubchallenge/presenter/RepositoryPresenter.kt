@@ -9,7 +9,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class RepositoryPresenter(private val view: RepositoryContract.View,
-                          private val service: GithubService
+    private val githubRepository: GithubRepository
 ) : RepositoryContract.Presenter {
 
     var isLoading = false
@@ -17,6 +17,7 @@ class RepositoryPresenter(private val view: RepositoryContract.View,
     var currentPage = 1
 
     override fun getJavaPopRepositories(page: Int) {
+        val service = githubRepository.getGithubService()
         if (!isLoading) {
             isLoading = true
             service.getJavaPopRepositories(page = 1).enqueue(object : Callback<RepositoryResponse> {
@@ -46,6 +47,7 @@ class RepositoryPresenter(private val view: RepositoryContract.View,
     }
 
     override fun getPullRequests(owner: String, repo: String) {
+        val service = githubRepository.getGithubService()
         service.getPullRequests(owner,repo).enqueue(object : Callback<List<PullRequest>>{
             override fun onResponse(call: Call<List<PullRequest>>, response: Response<List<PullRequest>>) {
                 if (response.isSuccessful) {

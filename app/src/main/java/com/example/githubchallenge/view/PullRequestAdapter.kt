@@ -7,6 +7,8 @@ import com.bumptech.glide.Glide
 import com.example.githubchallenge.R
 import com.example.githubchallenge.databinding.ItemPullrequestBinding
 import com.example.githubchallenge.model.PullRequest
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class PullRequestAdapter(private val pullRequests: MutableList<PullRequest>) :
     RecyclerView.Adapter<PullRequestAdapter.PullRequestViewHolder>() {
@@ -35,7 +37,12 @@ class PullRequestAdapter(private val pullRequests: MutableList<PullRequest>) :
 
             binding.prTvUsername.text = pullRequest.user.login
             binding.prTvPullRequestTitle.text = pullRequest.title
-            binding.prTvCreateAt.text = pullRequest.created_at
+            val createdAt = pullRequest.created_at
+            val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+            val date = sdf.parse(createdAt)
+            val outPutFormat = SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.getDefault())
+            val formattedDate = outPutFormat.format(date)
+            binding.prTvCreateAt.text = "Criado em : "+formattedDate
             binding.prTvBodyPullRequest.text = pullRequest.body
 
             Glide.with(itemView.context)

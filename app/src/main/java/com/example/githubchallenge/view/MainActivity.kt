@@ -13,6 +13,7 @@ import com.example.githubchallenge.databinding.ActivityMainBinding
 import com.example.githubchallenge.model.GithubService
 import com.example.githubchallenge.model.PullRequest
 import com.example.githubchallenge.model.Repository
+import com.example.githubchallenge.presenter.GithubRepository
 import com.example.githubchallenge.presenter.RepositoryPresenter
 import com.example.githubchallenge.utils.RecyclerViewItemDecoration
 import retrofit2.Retrofit
@@ -34,17 +35,14 @@ class MainActivity : AppCompatActivity(), RepositoryContract.View{
 
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
+        val githubRepository = GithubRepository()
+
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
-
         adapter = RepositoryAdapter(mutableListOf())
-
         recyclerView.layoutManager = layoutManager
-
         recyclerView.addItemDecoration(RecyclerViewItemDecoration(this, R.drawable.recyclerview_divider))
-
         adapter.notifyDataSetChanged()
-
         recyclerView.adapter = adapter
 
         adapter.setOnClickListener(object :
@@ -54,29 +52,16 @@ class MainActivity : AppCompatActivity(), RepositoryContract.View{
                     putExtra("repository", repository as Serializable)
                 }
                 startActivity(intent)
-
             }
-
         })
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.github.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
 
-        val service = retrofit.create(GithubService::class.java)
-        presenter = RepositoryPresenter(this, service)
-
+        presenter = RepositoryPresenter(this, githubRepository)
         presenter.getJavaPopRepositories(1)
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                val visibleItemCount = layoutManager.childCount
-                val totalItemCount = layoutManager.itemCount
-                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-
                 if (!recyclerView.canScrollVertically(1) && !(presenter as RepositoryPresenter).isLoading) {
                     presenter.getJavaPopRepositories((presenter as RepositoryPresenter).currentPage + 1)
                 }
