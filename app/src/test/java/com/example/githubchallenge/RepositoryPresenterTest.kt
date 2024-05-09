@@ -67,11 +67,9 @@ class RepositoryPresenterTest {
 
     @Test
     fun testGetPullRequests_Success() {
-        // Criação dos mocks necessários
         val mockResponse: Response<List<PullRequest>> = mock()
         val mockCall: Call<List<PullRequest>> = mock()
 
-        // Configuração do comportamento de stubbing
         whenever(mockResponse.isSuccessful).thenReturn(true)
         whenever(mockResponse.body()).thenReturn(listOf(PullRequest(
             1,
@@ -82,7 +80,6 @@ class RepositoryPresenterTest {
             "open"
         )))
 
-        // Configuração do comportamento do mock do serviço
         val mockGithubService: GithubService = mock()
         whenever(mockGithubService.getPullRequests(any(), any(), any(), any())).thenReturn(mockCall)
         whenever(githubRepository.getGithubService()).thenReturn(mockGithubService)
@@ -94,7 +91,7 @@ class RepositoryPresenterTest {
         verify(githubRepository.getGithubService()).getPullRequests(
             "AlanBastos",
             "github-challenge",
-            "all", // Corrigido para "all" de acordo com a implementação real
+            "all",
             1
         )
         verify(mockCall).enqueue(any())
