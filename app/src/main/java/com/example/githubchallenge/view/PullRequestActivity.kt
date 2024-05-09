@@ -1,9 +1,10 @@
 package com.example.githubchallenge.view
 
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.ActionBar
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubchallenge.R
@@ -29,6 +30,8 @@ class PullRequestActivity : AppCompatActivity(), RepositoryContract.View {
         val view = binding.root
         setContentView(view)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this, R.color.actionbarBg)))
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_24)
 
         val githubRepository = GithubRepository()
 
