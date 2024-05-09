@@ -16,6 +16,10 @@ import com.example.githubchallenge.model.Repository
 import com.example.githubchallenge.presenter.GithubRepository
 import com.example.githubchallenge.presenter.RepositoryPresenter
 import com.example.githubchallenge.utils.RecyclerViewItemDecoration
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import okhttp3.Dispatcher
 
 
 class PullRequestActivity : AppCompatActivity(), RepositoryContract.View {
@@ -34,8 +38,7 @@ class PullRequestActivity : AppCompatActivity(), RepositoryContract.View {
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this, R.color.actionbarBg)))
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_24)
 
-//        binding.tvPrOpen
-//        binding.tvPrClosed
+
 
         val githubRepository = GithubRepository()
 

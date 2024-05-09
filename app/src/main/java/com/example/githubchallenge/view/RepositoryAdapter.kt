@@ -36,7 +36,7 @@ class RepositoryAdapter(private val repositories: MutableList<Repository>) :
             )
         )
         val forkText = holder.itemView.context.resources.getString(
-            R.string.fork_count, repository.stargazers_count.formatToK().replace(
+            R.string.fork_count, repository.forks_count.formatToK().replace(
                 ",","."
             )
         )
