@@ -9,7 +9,7 @@ data class PullRequest(
     @SerializedName("id") val id: Long,
     @SerializedName("title") val title: String,
     @SerializedName("user") val user: User?,
-    @SerializedName("created_at") val created_at: String,
+    @SerializedName("created_at") val created_at: String?,
     @SerializedName("body") val body: String?,
     @SerializedName("state") val state: String
 ):java.io.Serializable {

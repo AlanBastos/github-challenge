@@ -2,8 +2,10 @@ package com.example.githubchallenge
 
 import com.example.githubchallenge.model.PullRequest
 import com.example.githubchallenge.model.User
+import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import java.text.ParseException
 
 class PullRequestTest {
 
@@ -47,5 +49,37 @@ class PullRequestTest {
         assertEquals("2024-05-09T08:47:37Z", pullRequest2.created_at)
         assertEquals("This is a PR for fixes a bug.", pullRequest2.body)
         assertEquals("open", pullRequest2.state)
+    }
+
+    @Test
+    fun testGetFormattedDate() {
+        val pullRequest = PullRequest(
+            1,
+            "fix bug #123",
+            User(1,"AlanBastos", "https://avatars.githubusercontent.com/u/29357758?v=4"),
+            "2024-05-09T08:47:37Z",
+            "This is a PR for fixes a bug.",
+            "open"
+        )
+
+        val formattedDate = pullRequest.getFormattedDate()
+        Assert.assertEquals("09/05/2024 - 05:47", formattedDate)
+    }
+
+
+    @Test(expected = ParseException::class)
+    fun testGetFormattedDate_ParseException() {
+        // Criação de uma instância de PullRequest com data em um formato inválido
+        val pullRequest = PullRequest(
+            1,
+            "Pull request",
+            null,
+            "2024/05/09 08:47:37", // Formato de data inválido
+            null,
+            "open"
+        )
+
+        // Chamada do método que queremos testar
+        pullRequest.getFormattedDate()
     }
 }
