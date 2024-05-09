@@ -1,6 +1,5 @@
 package com.example.githubchallenge.model
 
-import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
 
