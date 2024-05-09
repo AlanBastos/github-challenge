@@ -37,12 +37,8 @@ class PullRequestAdapter(private val pullRequests: MutableList<PullRequest>) :
 
             binding.prTvUsername.text = pullRequest.user.login
             binding.prTvPullRequestTitle.text = pullRequest.title
-            val createdAt = pullRequest.created_at
-            val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
-            val date = sdf.parse(createdAt)
-            val outPutFormat = SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.getDefault())
-            val formattedDate = outPutFormat.format(date)
-            binding.prTvCreateAt.text = "Criado em : "+formattedDate
+
+            binding.prTvCreateAt.text = "Criado em : "+pullRequest.getFormattedDate()
             binding.prTvBodyPullRequest.text = pullRequest.body
 
             Glide.with(itemView.context)

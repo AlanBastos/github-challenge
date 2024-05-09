@@ -4,4 +4,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fork_count">Fork %s</string>
     <string name="stars_count">Stars %s</string>
+    <string name="pROpen">Open %s</string>
+    <string name="pRClosed">Closed %s</string>
 </resources>

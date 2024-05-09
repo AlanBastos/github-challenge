@@ -17,7 +17,8 @@ interface GithubService {
     @GET("repos/{owner}/{repo}/pulls")
     fun getPullRequests(
         @Path("owner") owner: String,
-        @Path("repo") repo: String
+        @Path("repo") repo: String,
+        @Query("state") state: String = "all"
     ): Call<List<PullRequest>>
 
 }

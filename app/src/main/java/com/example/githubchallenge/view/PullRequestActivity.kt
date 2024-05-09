@@ -3,6 +3,7 @@ package com.example.githubchallenge.view
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,6 +34,9 @@ class PullRequestActivity : AppCompatActivity(), RepositoryContract.View {
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this, R.color.actionbarBg)))
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_24)
 
+//        binding.tvPrOpen
+//        binding.tvPrClosed
+
         val githubRepository = GithubRepository()
 
         val repository: Repository? = intent.getSerializableExtra("repository") as Repository?
@@ -55,6 +59,15 @@ class PullRequestActivity : AppCompatActivity(), RepositoryContract.View {
 
         presenter = RepositoryPresenter(this, githubRepository)
         presenter.getPullRequests(repository!!.owner.login,repository.name )
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (!recyclerView.canScrollVertically(1) && !(presenter as RepositoryPresenter).isLoading) {
+                    presenter.getPullRequests(repository.owner.login, repository.name)
+                }
+            }
+        })
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -71,5 +84,17 @@ class PullRequestActivity : AppCompatActivity(), RepositoryContract.View {
 
     override fun showPullRequests(pullRequests: List<PullRequest>) {
         adapter.addAll(pullRequests)
+
+        val pROpenCount = pullRequests.count { it.state == "open" }
+        val pRClosedCount = pullRequests.count { it.state == "closed" }
+
+        val openText = this.getString(R.string.pROpen, "$pROpenCount")
+        val closedText = this.getString(R.string.pRClosed, "$pRClosedCount")
+        binding.tvPrOpen.text = openText
+        binding.tvPrClosed.text = closedText
+
+        for (pullRequest in pullRequests) {
+            Log.d("PullRequestState", "Title: ${pullRequest.title}, State: ${pullRequest.state}")
+        }
     }
 }
