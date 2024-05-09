@@ -3,21 +3,18 @@ package com.example.githubchallenge.view
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubchallenge.R
 import com.example.githubchallenge.contract.RepositoryContract
 import com.example.githubchallenge.databinding.ActivityMainBinding
-import com.example.githubchallenge.model.GithubService
 import com.example.githubchallenge.model.PullRequest
 import com.example.githubchallenge.model.Repository
 import com.example.githubchallenge.presenter.GithubRepository
 import com.example.githubchallenge.presenter.RepositoryPresenter
 import com.example.githubchallenge.utils.RecyclerViewItemDecoration
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.Serializable
 
 class MainActivity : AppCompatActivity(), RepositoryContract.View{
@@ -32,6 +29,7 @@ class MainActivity : AppCompatActivity(), RepositoryContract.View{
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        supportActionBar!!.title = "Tendências do Github - Java"
 
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 

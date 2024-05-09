@@ -3,6 +3,7 @@ package com.example.githubchallenge.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubchallenge.R
@@ -27,11 +28,14 @@ class PullRequestActivity : AppCompatActivity(), RepositoryContract.View {
         binding = ActivityPullRequestBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val githubRepository = GithubRepository()
 
         val repository: Repository? = intent.getSerializableExtra("repository") as Repository?
-        if (repository == null) {
+        if (repository != null) {
+            supportActionBar!!.title = repository.name.replaceFirstChar(Char::uppercaseChar)
+        } else {
             Toast.makeText(this, "Repository object not found", Toast.LENGTH_SHORT).show()
         }
 
@@ -48,6 +52,11 @@ class PullRequestActivity : AppCompatActivity(), RepositoryContract.View {
 
         presenter = RepositoryPresenter(this, githubRepository)
         presenter.getPullRequests(repository!!.owner.login,repository.name )
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     override fun showRepositories(repositories: List<Repository>) {
