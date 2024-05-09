@@ -35,7 +35,7 @@ class PullRequestAdapter(private val pullRequests: MutableList<PullRequest>) :
             binding.pullrequest = pullRequest
             binding.executePendingBindings()
 
-            binding.prTvUsername.text = pullRequest.user.login
+            binding.prTvUsername.text = pullRequest.user!!.login
             binding.prTvPullRequestTitle.text = pullRequest.title
 
             binding.prTvCreateAt.text = "Criado em : "+pullRequest.getFormattedDate()
