@@ -74,7 +74,7 @@ class PullRequestActivity : AppCompatActivity(), RepositoryContract.View {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        onBackPressedDispatcher.onBackPressed()
         return true
     }
 

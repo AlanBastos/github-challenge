@@ -1,6 +1,5 @@
 package com.example.githubchallenge
 
-import com.example.githubchallenge.model.GithubService
 import com.example.githubchallenge.presenter.GithubRepository
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertTrue

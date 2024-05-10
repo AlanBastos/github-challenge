@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.Packaging
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -39,6 +41,20 @@ android {
     buildFeatures {
         dataBinding = true
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+        packagingOptions {
+            exclude("META-INF/LICENSE.md")
+            exclude("META-INF/LICENSE-notice.md")
+            jniLibs {
+                useLegacyPackaging = true
+            }
+        }
+    }
+
+
 
 }
 
@@ -48,6 +64,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.test.espresso:espresso-contrib:3.5.1")
     testImplementation("junit:junit:4.13.2")
     testImplementation("junit:junit:4.12")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
@@ -88,9 +105,18 @@ dependencies {
 
     //mockito-kotlin
     val mockitoKotlinVersion = "5.3.1"
+    val mockitoCoreVersion = "5.11.0"
     testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
+    androidTestImplementation("org.mockito:mockito-core:$mockitoCoreVersion")
+
+    val mockkVersion = "1.13.10"
+    androidTestImplementation("io.mockk:mockk-android:$mockkVersion")
+
 
     val mockWebserverVersion = "4.12.0"
     testImplementation("com.squareup.okhttp3:mockwebserver:$mockWebserverVersion")
+
+    val testRulesVersion = "1.5.0"
+    androidTestImplementation("androidx.test:rules:$testRulesVersion")
 
 }
