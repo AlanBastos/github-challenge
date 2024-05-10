@@ -7,8 +7,10 @@ import com.bumptech.glide.Glide
 import com.example.githubchallenge.R
 import com.example.githubchallenge.databinding.ItemPullrequestBinding
 import com.example.githubchallenge.model.PullRequest
+import java.text.SimpleDateFormat
+import java.util.Locale
 
-class PullRequestAdapter(private val pullRequests: List<PullRequest>) :
+class PullRequestAdapter(private val pullRequests: MutableList<PullRequest>) :
     RecyclerView.Adapter<PullRequestAdapter.PullRequestViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int
@@ -33,9 +35,10 @@ class PullRequestAdapter(private val pullRequests: List<PullRequest>) :
             binding.pullrequest = pullRequest
             binding.executePendingBindings()
 
-            binding.prTvUsername.text = pullRequest.user.login
+            binding.prTvUsername.text = pullRequest.user!!.login
             binding.prTvPullRequestTitle.text = pullRequest.title
-            binding.prTvCreateAt.text = pullRequest.created_at
+
+            binding.prTvCreateAt.text = "Criado em : "+pullRequest.getFormattedDate()
             binding.prTvBodyPullRequest.text = pullRequest.body
 
             Glide.with(itemView.context)
@@ -45,6 +48,11 @@ class PullRequestAdapter(private val pullRequests: List<PullRequest>) :
                 .into(binding.prAvatar)
         }
 
+    }
+
+    fun addAll(pullRequestsList: List<PullRequest>) {
+        pullRequests.addAll(pullRequestsList)
+        notifyDataSetChanged()
     }
 
 }

@@ -10,14 +10,14 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#0D1117">
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -39,68 +39,69 @@
 
         <TextView
             android:id="@+id/tvUsername"
-            android:textColor="#E5EDF3"
-            android:layout_marginTop="8dp"
-            android:textSize="20sp"
-            android:text="Username"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Username"
+            android:textColor="@color/titleColor"
+            android:textSize="20sp" />
 
-        <View
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
-            android:background="#30363E"
+        <Space
             android:layout_width="match_parent"
-            android:layout_height="1.5dp"/>
+            android:layout_height="8dp"/>
 
         <TextView
             android:id="@+id/tvRepositoryName"
-            android:textColor="#E5EDF3"
-            android:textSize="24sp"
-            android:text="Nome Repositório"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Nome Repositório"
+            android:textColor="@color/titleColor"
+            android:textSize="24sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="6dp"/>
 
         <TextView
             android:id="@+id/tvRepositoryDescription"
-            android:textColor="#E5EDF3"
-            android:ellipsize="end"
-            android:textSize="16sp"
-            android:text="Descrição repositório lorem ipsum dolor sit amet lorem lorem ipsum dolor sit amet lorem lorem..."
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:text="Descrição repositório lorem ipsum dolor sit amet lorem lorem ipsum dolor sit amet lorem lorem..."
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
 
         <LinearLayout
-            android:background="@drawable/background_shape"
-            android:padding="8dp"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/background_shape"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
-        <TextView
-            android:id="@+id/tvFork"
-            android:textColor="#E5EDF3"
-            android:text="Fork"
-            android:textSize="18dp"
-            android:layout_weight="3"
-            android:gravity="center_vertical"
-            android:drawableLeft="@drawable/git_fork"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tvFork"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:drawableLeft="@drawable/git_fork"
+                android:gravity="center_vertical"
+                android:text="Fork"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
 
 
-        <TextView
-            android:id="@+id/tvStars"
-            android:textColor="#E5EDF3"
-            android:text="Star"
-            android:textSize="18dp"
-            android:layout_weight="3"
-            android:gravity="center_vertical"
-            android:drawableLeft="@drawable/baseline_star_outline_24"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tvStars"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:drawableLeft="@drawable/baseline_star_outline_24"
+                android:gravity="center_vertical"
+                android:text="Star"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
 
         </LinearLayout>
 

@@ -10,8 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#0D1117">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:orientation="vertical"
@@ -39,31 +38,32 @@
 
             <TextView
                 android:id="@+id/prTvUsername"
-                android:textColor="#E5EDF3"
+                android:textColor="@color/titleColor"
                 android:layout_marginTop="8dp"
                 android:textSize="20sp"
                 android:text="Username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <View
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="6dp"
-                android:background="#30363E"
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="1.5dp"/>
+                android:layout_height="8dp"/>
 
             <TextView
                 android:id="@+id/prTvPullRequestTitle"
-                android:textColor="#E5EDF3"
+                android:textColor="@color/titleColor"
                 android:textSize="24sp"
                 android:text="Título pull request"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="6dp"/>
+
             <TextView
                 android:id="@+id/prTvBodyPullRequest"
-                android:textColor="#E5EDF3"
+                android:textColor="@color/black"
                 android:ellipsize="end"
                 android:textSize="16sp"
                 android:text="Body Pull request lorem ipsum dolor sit amet lorem lorem ipsum dolor sit amet lorem lorem..."
@@ -72,9 +72,10 @@
 
 
                 <TextView
+                    android:layout_margin="12dp"
                     android:layout_marginTop="8dp"
                     android:id="@+id/prTvCreateAt"
-                    android:textColor="#E5EDF3"
+                    android:textColor="@color/black"
                     android:text="Criado em :"
                     android:drawablePadding="8dp"
                     android:textSize="18dp"
