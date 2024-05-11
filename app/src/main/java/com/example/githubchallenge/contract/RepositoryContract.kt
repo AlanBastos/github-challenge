@@ -2,7 +2,9 @@ package com.example.githubchallenge.contract
 
 import com.example.githubchallenge.model.PullRequest
 import com.example.githubchallenge.model.Repository
+import javax.inject.Singleton
 
+@Singleton
 interface RepositoryContract {
     interface View {
         fun showRepositories(repositories: List<Repository>)

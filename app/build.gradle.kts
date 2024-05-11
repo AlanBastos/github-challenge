@@ -95,7 +95,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
 
     //Hilt
-    val hilVersion = "2.44"
+    val hilVersion = "2.48.1"
     implementation("com.google.dagger:hilt-android:$hilVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hilVersion")
 
@@ -119,4 +119,5 @@ dependencies {
     val testRulesVersion = "1.5.0"
     androidTestImplementation("androidx.test:rules:$testRulesVersion")
 
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
 }

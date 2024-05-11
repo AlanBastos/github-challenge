@@ -1,7 +1,7 @@
 package com.example.githubchallenge.model
 
 import com.google.gson.annotations.SerializedName
-
+import javax.inject.Singleton
 
 data class Repository(
     @SerializedName("id") val id: Long,

@@ -1,11 +1,11 @@
 package com.example.githubchallenge.view
 
-import android.graphics.drawable.ColorDrawable
+import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubchallenge.R
@@ -15,67 +15,84 @@ import com.example.githubchallenge.model.PullRequest
 import com.example.githubchallenge.model.Repository
 import com.example.githubchallenge.presenter.GithubRepository
 import com.example.githubchallenge.presenter.RepositoryPresenter
+import com.example.githubchallenge.utils.DialogHelper
+import com.example.githubchallenge.utils.NetworkConnection
 import com.example.githubchallenge.utils.RecyclerViewItemDecoration
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
+import com.example.githubchallenge.utils.UIUtils
+import dagger.hilt.android.AndroidEntryPoint
+import java.io.Serializable
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class PullRequestActivity : AppCompatActivity(), RepositoryContract.View {
+
+    @Inject lateinit var uiUtils: UIUtils
+    @Inject lateinit var adapter: PullRequestAdapter
+    @Inject lateinit var dialogHelper: DialogHelper
+    @Inject lateinit var networkConnection: NetworkConnection
 
     private lateinit var binding: ActivityPullRequestBinding
     private lateinit var presenter: RepositoryContract.Presenter
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: PullRequestAdapter
+    private lateinit var repository: Repository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPullRequestBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this, R.color.actionbarBg)))
-        supportActionBar!!.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_24)
+        presenter = createPresenter()
+        initializeUI()
+        setupRecyclerView()
+        val repository = getRepositoryFromIntent()
+        presenter.getPullRequests(repository.owner.login,repository.name )
 
+    }
 
+    private fun initializeUI() {
+        uiUtils.setupUIWithBackButton(this)
+        if (!networkConnection.isNetworkAvailable(this)) {
+            dialogHelper.showNoInternetDialog(
+                this,
+                getString(R.string.dialog_title),
+                getString(R.string.dialog_message)
+            )
+        }
+        setupRecyclerView()
+    }
 
-        val githubRepository = GithubRepository()
-
-        val repository: Repository? = intent.getSerializableExtra("repository") as Repository?
-        if (repository != null) {
-            supportActionBar!!.title = repository.name.replaceFirstChar(Char::uppercaseChar)
-        } else {
-            Toast.makeText(this, "Repository object not found", Toast.LENGTH_SHORT).show()
+    private fun setupRecyclerView() {
+        binding.prRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(RecyclerViewItemDecoration(
+                this@PullRequestActivity,
+                R.drawable.recyclerview_divider
+            ))
+            adapter = this@PullRequestActivity.adapter
         }
 
+        binding.prRecyclerView.addOnScrollListener(createOnScrollListener())
+    }
 
-        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        recyclerView = binding.prRecyclerView
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = PullRequestAdapter(mutableListOf())
-        recyclerView.layoutManager = layoutManager
-        recyclerView.addItemDecoration(RecyclerViewItemDecoration(this, R.drawable.recyclerview_divider))
-        adapter.notifyDataSetChanged()
-        recyclerView.adapter = adapter
-
-
-        presenter = RepositoryPresenter(this, githubRepository)
-        presenter.getPullRequests(repository!!.owner.login,repository.name )
-
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+    private fun createOnScrollListener(): RecyclerView.OnScrollListener {
+        return object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (!recyclerView.canScrollVertically(1) && !(presenter as RepositoryPresenter).isLoading) {
+                if (!recyclerView.canScrollVertically(1)
+                    && !(presenter as RepositoryPresenter).isLoading) {
                     presenter.getPullRequests(repository.owner.login, repository.name)
                 }
             }
-        })
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressedDispatcher.onBackPressed()
         return true
+    }
+
+    private fun createPresenter(): RepositoryContract.Presenter {
+
+        return RepositoryPresenter(this, GithubRepository())
     }
 
     override fun showRepositories(repositories: List<Repository>) {
@@ -99,5 +116,15 @@ class PullRequestActivity : AppCompatActivity(), RepositoryContract.View {
         for (pullRequest in pullRequests) {
             Log.d("PullRequestState", "Title: ${pullRequest.title}, State: ${pullRequest.state}")
         }
+    }
+
+    private inline fun <reified T : Serializable> Intent.serializable(key: String): T? = when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializableExtra(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getSerializableExtra(key) as? T
+    }
+
+    private fun getRepositoryFromIntent() : Repository {
+        return intent.serializable("repository") as Repository? ?:
+        throw IllegalAccessException("Repository not found in intent")
     }
 }

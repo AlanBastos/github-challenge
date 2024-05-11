@@ -1,12 +1,9 @@
 package com.example.githubchallenge.view
 
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubchallenge.R
@@ -16,70 +13,104 @@ import com.example.githubchallenge.model.PullRequest
 import com.example.githubchallenge.model.Repository
 import com.example.githubchallenge.presenter.GithubRepository
 import com.example.githubchallenge.presenter.RepositoryPresenter
+import com.example.githubchallenge.utils.DialogHelper
+import com.example.githubchallenge.utils.NetworkConnection
 import com.example.githubchallenge.utils.RecyclerViewItemDecoration
-import java.io.Serializable
+import com.example.githubchallenge.utils.UIUtils
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), RepositoryContract.View{
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity(), RepositoryContract.View {
+
+    @Inject lateinit var uiUtils: UIUtils
+    @Inject lateinit var networkConnection: NetworkConnection
+    @Inject lateinit var dialogHelper: DialogHelper
+    @Inject lateinit var adapter: RepositoryAdapter
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var presenter: RepositoryContract.Presenter
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: RepositoryAdapter
+    private var isLoading: Boolean = false
+    private var currentPage: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
-        supportActionBar!!.title = "Tendências do Github - Java"
-        supportActionBar!!.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this, R.color.actionbarBg)))
+        setContentView(binding.root)
+        initializeUI()
+        presenter = createPresenter()
+        presenter.getJavaPopRepositories(currentPage)
+    }
 
-        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+    private fun initializeUI() {
+        uiUtils.setupUI(this)
+        if (!networkConnection.isNetworkAvailable(this)) {
+            dialogHelper.showNoInternetDialog(
+                this,
+                getString(R.string.dialog_title),
+                getString(R.string.dialog_message)
+            )
+        }
+        setupRecyclerView()
+    }
 
-        val githubRepository = GithubRepository()
+    private fun setupRecyclerView() {
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(RecyclerViewItemDecoration(
+                this@MainActivity,
+                R.drawable.recyclerview_divider
+            ))
+            adapter = this@MainActivity.adapter
+        }
 
-        recyclerView = binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = RepositoryAdapter(mutableListOf())
-        recyclerView.layoutManager = layoutManager
-        recyclerView.addItemDecoration(RecyclerViewItemDecoration(this, R.drawable.recyclerview_divider))
-        adapter.notifyDataSetChanged()
-        recyclerView.adapter = adapter
-
-        adapter.setOnClickListener(object :
-        RepositoryAdapter.OnClickListener {
+        val onClickListener = object : RepositoryAdapter.OnClickListener {
             override fun onClick(position: Int, repository: Repository) {
                 val intent = Intent(this@MainActivity, PullRequestActivity::class.java).apply {
-                    putExtra("repository", repository as Serializable)
+                    putExtra("repository", repository)
                 }
                 startActivity(intent)
             }
-        })
+        }
 
+        adapter.setOnClickListener(onClickListener)
 
-        presenter = RepositoryPresenter(this, githubRepository)
-        presenter.getJavaPopRepositories(1)
+        binding.recyclerView.addOnScrollListener(createOnScrollListener())
+    }
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+    private fun createOnScrollListener(): RecyclerView.OnScrollListener {
+        return object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (!recyclerView.canScrollVertically(1) && !(presenter as RepositoryPresenter).isLoading) {
-                    presenter.getJavaPopRepositories((presenter as RepositoryPresenter).currentPage + 1)
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+                val totalItemCount = layoutManager.itemCount
+                val visibleThreshold = 5 // Quantidade de itens para carregar antes do fim da lista
+
+                if (!isLoading && lastVisibleItemPosition + visibleThreshold >= totalItemCount) {
+                    isLoading = true
+                    currentPage++ // Incrementando currentPage para a próxima página
+                    presenter.getJavaPopRepositories(currentPage)
                 }
             }
-        })
+        }
+    }
+
+    private fun createPresenter(): RepositoryContract.Presenter {
+        return RepositoryPresenter(this, GithubRepository())
     }
 
     override fun showRepositories(repositories: List<Repository>) {
         adapter.addAll(repositories)
+        isLoading = false
     }
 
     override fun showError(message: String) {
-        Toast.makeText(this,message,Toast.LENGTH_LONG).show()
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        isLoading = false
     }
 
     override fun showPullRequests(pullRequests: List<PullRequest>) {
-
+        // Not implemented yet
     }
-
 }

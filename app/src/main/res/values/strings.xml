@@ -6,4 +6,27 @@
     <string name="stars_count">Stars %s</string>
     <string name="pROpen">Open %s</string>
     <string name="pRClosed">Closed %s</string>
+    <string name="pull_requests_open_content_description">Open</string>
+    <string name="pull_requests_closed_content_description">Closed</string>
+    <string name="imageView_content_description">Avatar</string>
+    <string name="username">Username</string>
+    <string name="username_content_description">Username</string>
+    <string name="space">space</string>
+    <string name="repository_content_description">Nome Repositório</string>
+    <string name="repository_name">Nome Repositório</string>
+    <string name="description_repository">Descrição repositório lorem ipsum dolor sit amet lorem lorem ipsum dolor sit amet lorem lorem...</string>
+    <string name="description_repository_content">Descrição repositório</string>
+    <string name="fork_quantity">fork quantity</string>
+    <string name="fork">Fork</string>
+    <string name="star">Star</string>
+    <string name="star_quantity">Star quantity</string>
+    <string name="avatar">avatar</string>
+    <string name="pull_request_title">Título pull request</string>
+    <string name="pull_request_titulo">pull request titulo</string>
+    <string name="body">Body Pull request lorem ipsum dolor sit amet lorem lorem ipsum dolor sit amet lorem lorem...</string>
+    <string name="body_content_description">body content description</string>
+    <string name="create_At">Criado em :</string>
+    <string name="dialog_title">Sem conexão com a internet</string>
+    <string name="dialog_message">Por favor, verifique sua conexão com a Internet e tente novamente.</string>
+
 </resources>
