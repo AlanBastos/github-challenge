@@ -9,7 +9,9 @@ import com.example.githubchallenge.databinding.ItemPullrequestBinding
 import com.example.githubchallenge.model.PullRequest
 import java.text.SimpleDateFormat
 import java.util.Locale
+import javax.inject.Singleton
 
+@Singleton
 class PullRequestAdapter(private val pullRequests: MutableList<PullRequest>) :
     RecyclerView.Adapter<PullRequestAdapter.PullRequestViewHolder>() {
 

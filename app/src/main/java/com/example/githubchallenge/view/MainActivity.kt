@@ -18,84 +18,99 @@ import com.example.githubchallenge.utils.NetworkConnection
 import com.example.githubchallenge.utils.RecyclerViewItemDecoration
 import com.example.githubchallenge.utils.UIUtils
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.Serializable
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), RepositoryContract.View{
+class MainActivity : AppCompatActivity(), RepositoryContract.View {
 
     @Inject lateinit var uiUtils: UIUtils
     @Inject lateinit var networkConnection: NetworkConnection
     @Inject lateinit var dialogHelper: DialogHelper
     @Inject lateinit var adapter: RepositoryAdapter
 
-
     private lateinit var binding: ActivityMainBinding
     private lateinit var presenter: RepositoryContract.Presenter
-    private lateinit var recyclerView: RecyclerView
-
+    private var isLoading: Boolean = false
+    private var currentPage: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
+        initializeUI()
+        presenter = createPresenter()
+        presenter.getJavaPopRepositories(currentPage)
+    }
 
+    private fun initializeUI() {
         uiUtils.setupUI(this)
-
         if (!networkConnection.isNetworkAvailable(this)) {
             dialogHelper.showNoInternetDialog(
                 this,
                 "Sem conexão com a internet",
-                "Por favor, verifique sua conexão com a Internet e tente novamente.")
+                "Por favor, verifique sua conexão com a Internet e tente novamente."
+            )
+        }
+        setupRecyclerView()
+    }
+
+    private fun setupRecyclerView() {
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(RecyclerViewItemDecoration(
+                this@MainActivity,
+                R.drawable.recyclerview_divider
+            ))
+            adapter = this@MainActivity.adapter
         }
 
-        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
-        val githubRepository = GithubRepository()
-
-        recyclerView = binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.layoutManager = layoutManager
-        recyclerView.addItemDecoration(RecyclerViewItemDecoration(this, R.drawable.recyclerview_divider))
-        adapter.notifyDataSetChanged()
-        recyclerView.adapter = adapter
-
-        adapter.setOnClickListener(object :
-            RepositoryAdapter.OnClickListener {
+        val onClickListener = object : RepositoryAdapter.OnClickListener {
             override fun onClick(position: Int, repository: Repository) {
                 val intent = Intent(this@MainActivity, PullRequestActivity::class.java).apply {
-                    putExtra("repository", repository as Serializable)
+                    putExtra("repository", repository)
                 }
                 startActivity(intent)
             }
-        })
+        }
 
-        presenter = RepositoryPresenter(this, githubRepository)
-        presenter.getJavaPopRepositories(1)
+        adapter.setOnClickListener(onClickListener)
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (!recyclerView.canScrollVertically(1) && !(presenter as RepositoryPresenter).isLoading) {
-                    presenter.getJavaPopRepositories((presenter as RepositoryPresenter).currentPage + 1)
-                }
-            }
-        })
-
+        binding.recyclerView.addOnScrollListener(createOnScrollListener())
     }
 
+    private fun createOnScrollListener(): RecyclerView.OnScrollListener {
+        return object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+                val totalItemCount = layoutManager.itemCount
+                val visibleThreshold = 5 // Quantidade de itens para carregar antes do fim da lista
+
+                if (!isLoading && lastVisibleItemPosition + visibleThreshold >= totalItemCount) {
+                    isLoading = true
+                    currentPage++ // Incrementando currentPage para a próxima página
+                    presenter.getJavaPopRepositories(currentPage)
+                }
+            }
+        }
+    }
+
+    private fun createPresenter(): RepositoryContract.Presenter {
+        return RepositoryPresenter(this, GithubRepository())
+    }
 
     override fun showRepositories(repositories: List<Repository>) {
         adapter.addAll(repositories)
+        isLoading = false
     }
 
     override fun showError(message: String) {
-        Toast.makeText(this,message,Toast.LENGTH_LONG).show()
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        isLoading = false
     }
 
     override fun showPullRequests(pullRequests: List<PullRequest>) {
+        // Not implemented yet
     }
-
-
 }

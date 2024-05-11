@@ -11,7 +11,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class RepositoryPresenter @Inject constructor(
     private val view: RepositoryContract.View,
     private val githubRepository: GithubRepository,
