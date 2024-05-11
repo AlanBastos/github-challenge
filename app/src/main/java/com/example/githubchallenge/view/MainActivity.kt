@@ -47,8 +47,8 @@ class MainActivity : AppCompatActivity(), RepositoryContract.View {
         if (!networkConnection.isNetworkAvailable(this)) {
             dialogHelper.showNoInternetDialog(
                 this,
-                "Sem conexão com a internet",
-                "Por favor, verifique sua conexão com a Internet e tente novamente."
+                getString(R.string.dialog_title),
+                getString(R.string.dialog_message)
             )
         }
         setupRecyclerView()

@@ -22,6 +22,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.cardview.widget.CardView
+                android:importantForAccessibility="yes"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 app:cardCornerRadius="200dp"
@@ -29,6 +30,8 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
+                    android:importantForAccessibility="yes"
+                    android:contentDescription="@string/imageView_content_description"
                     android:id="@+id/prAvatar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -37,11 +40,13 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
+                android:importantForAccessibility="yes"
+                android:contentDescription="@string/username_content_description"
                 android:id="@+id/prTvUsername"
                 android:textColor="@color/titleColor"
                 android:layout_marginTop="8dp"
                 android:textSize="20sp"
-                android:text="Username"
+                android:text="@string/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -50,10 +55,12 @@
                 android:layout_height="8dp"/>
 
             <TextView
+                android:importantForAccessibility="yes"
+                android:contentDescription="@string/pull_request_titulo"
                 android:id="@+id/prTvPullRequestTitle"
                 android:textColor="@color/titleColor"
                 android:textSize="24sp"
-                android:text="Título pull request"
+                android:text="@string/pull_request_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -62,11 +69,12 @@
                 android:layout_height="6dp"/>
 
             <TextView
+                android:contentDescription="@string/body_content_description"
                 android:id="@+id/prTvBodyPullRequest"
                 android:textColor="@color/black"
                 android:ellipsize="end"
                 android:textSize="16sp"
-                android:text="Body Pull request lorem ipsum dolor sit amet lorem lorem ipsum dolor sit amet lorem lorem..."
+                android:text="@string/body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -76,13 +84,13 @@
                     android:layout_marginTop="8dp"
                     android:id="@+id/prTvCreateAt"
                     android:textColor="@color/black"
-                    android:text="Criado em :"
+                    android:text="@string/create_At"
                     android:drawablePadding="8dp"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:gravity="center_vertical"
-                    android:drawableLeft="@drawable/baseline_calendar_month_24"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    app:drawableLeftCompat="@drawable/baseline_calendar_month_24" />
 
         </LinearLayout>
 

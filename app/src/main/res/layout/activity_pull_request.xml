@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -12,6 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:importantForAccessibility="no"
         android:background="@color/white">
 
         <LinearLayout
@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:gravity="center"
+            android:importantForAccessibility="no"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,12 +30,14 @@
                 android:id="@+id/tvPrOpen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_git_pull_request"
                 android:textFontWeight="700"
                 android:fontFamily="sans-serif-condensed-medium"
+                android:contentDescription="@string/pull_requests_open_content_description"
                 android:gravity="center_vertical"
                 android:textColor="@color/textOpenColor"
-                android:textSize="12dp" />
+                android:textSize="12sp"
+                android:importantForAccessibility="yes"
+                app:drawableLeftCompat="@drawable/ic_git_pull_request" />
 
             <Space
                 android:layout_width="10dp"
@@ -45,12 +48,14 @@
                 android:id="@+id/tvPrClosed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_check"
                 android:gravity="center_vertical"
                 android:textFontWeight="700"
+                android:contentDescription="@string/pull_requests_closed_content_description"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:textColor="@color/textClosedColor"
-                android:textSize="12dp" />
+                android:textSize="12sp"
+                android:importantForAccessibility="yes"
+                app:drawableLeftCompat="@drawable/ic_check" />
 
         </LinearLayout>
 
@@ -62,6 +67,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
+            android:importantForAccessibility="no"
             android:id="@+id/prRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
