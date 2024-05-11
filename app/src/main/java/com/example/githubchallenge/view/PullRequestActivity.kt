@@ -15,6 +15,8 @@ import com.example.githubchallenge.model.PullRequest
 import com.example.githubchallenge.model.Repository
 import com.example.githubchallenge.presenter.GithubRepository
 import com.example.githubchallenge.presenter.RepositoryPresenter
+import com.example.githubchallenge.utils.DialogHelper
+import com.example.githubchallenge.utils.NetworkConnection
 import com.example.githubchallenge.utils.RecyclerViewItemDecoration
 import com.example.githubchallenge.utils.UIUtils
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +28,8 @@ class PullRequestActivity : AppCompatActivity(), RepositoryContract.View {
 
     @Inject lateinit var uiUtils: UIUtils
     @Inject lateinit var adapter: PullRequestAdapter
+    @Inject lateinit var dialogHelper: DialogHelper
+    @Inject lateinit var networkConnection: NetworkConnection
 
     private lateinit var binding: ActivityPullRequestBinding
     private lateinit var presenter: RepositoryContract.Presenter
@@ -46,6 +50,14 @@ class PullRequestActivity : AppCompatActivity(), RepositoryContract.View {
 
     private fun initializeUI() {
         uiUtils.setupUIWithBackButton(this)
+        if (!networkConnection.isNetworkAvailable(this)) {
+            dialogHelper.showNoInternetDialog(
+                this,
+                getString(R.string.dialog_title),
+                getString(R.string.dialog_message)
+            )
+        }
+        setupRecyclerView()
     }
 
     private fun setupRecyclerView() {
