@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="repository"
+            type="com.example.githubchallenge.model.Repository" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:importantForAccessibility="no"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:importantForAccessibility="no"
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:importantForAccessibility="yes"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:cardCornerRadius="200dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:importantForAccessibility="yes"
+                android:contentDescription="@string/imageView_content_description"
+                android:id="@+id/avatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_launcher" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:importantForAccessibility="yes"
+            android:contentDescription="@string/username_content_description"
+            android:id="@+id/tvUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/username"
+            android:textColor="@color/titleColor"
+            android:textSize="20sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp"/>
+
+        <TextView
+            android:importantForAccessibility="yes"
+            android:contentDescription="@string/repository_content_description"
+            android:id="@+id/tvRepositoryName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/repository_name"
+            android:textColor="@color/titleColor"
+            android:textSize="24sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="6dp"/>
+
+        <TextView
+            android:importantForAccessibility="yes"
+            android:contentDescription="@string/description_repository_content"
+            android:id="@+id/tvRepositoryDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:text="@string/description_repository"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/background_shape"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <TextView
+                android:importantForAccessibility="yes"
+                android:contentDescription="@string/fork_quantity"
+                android:id="@+id/tvFork"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="center_vertical"
+                android:text="@string/fork"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:drawableLeftCompat="@drawable/git_fork" />
+
+
+            <TextView
+                android:importantForAccessibility="yes"
+                android:contentDescription="@string/star_quantity"
+                android:id="@+id/tvStars"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="center_vertical"
+                android:text="@string/star"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:drawableLeftCompat="@drawable/baseline_star_outline_24" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
