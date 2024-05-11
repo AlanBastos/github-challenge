@@ -1,7 +1,6 @@
 package com.example.githubchallenge.view
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -9,9 +8,11 @@ import com.example.githubchallenge.R
 import com.example.githubchallenge.databinding.ItemRepositoryBinding
 import com.example.githubchallenge.model.Repository
 import com.example.githubchallenge.utils.FormatToK.Companion.formatToK
+import javax.inject.Inject
+import javax.inject.Singleton
 
-
-class RepositoryAdapter(private val repositories: MutableList<Repository>) :
+@Singleton
+class RepositoryAdapter @Inject constructor(private val repositories: MutableList<Repository>) :
     RecyclerView.Adapter<RepositoryAdapter.RepositoryViewHolder>() {
 
 

@@ -10,23 +10,25 @@ import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class RepositoryPresenter(
+class RepositoryPresenter @Inject constructor(
     private val view: RepositoryContract.View,
     private val githubRepository: GithubRepository,
 ) : RepositoryContract.Presenter {
-
 
     var isLoading = false
     var isLastPage = false
     var currentPage = 1
 
     override fun getJavaPopRepositories(page: Int) {
+
         if (!isLoading) {
             isLoading = true
             CoroutineScope(Dispatchers.IO).launch {
                 try {
-                    val response = githubRepository.getGithubService().getJavaPopRepositories(page=page)
+                    val response =
+                        githubRepository.getGithubService().getJavaPopRepositories(page = page)
                     withContext(Dispatchers.Main) {
                         response.enqueue(object : Callback<RepositoryResponse> {
                             override fun onResponse(
@@ -64,8 +66,10 @@ class RepositoryPresenter(
     override fun getPullRequests(owner: String, repo: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = githubRepository.getGithubService().getPullRequests(owner = owner,
-                    repo = repo)
+                val response = githubRepository.getGithubService().getPullRequests(
+                    owner = owner,
+                    repo = repo
+                )
                 withContext(Dispatchers.Main) {
                     response.enqueue(object : Callback<List<PullRequest>> {
                         override fun onResponse(
@@ -87,7 +91,7 @@ class RepositoryPresenter(
 
                     })
                 }
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     view.showError(e.message ?: "Unknown error")
                 }
