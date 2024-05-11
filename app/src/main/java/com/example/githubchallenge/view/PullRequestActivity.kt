@@ -43,7 +43,7 @@ class PullRequestActivity : AppCompatActivity(), RepositoryContract.View {
         presenter = createPresenter()
         initializeUI()
         setupRecyclerView()
-        val repository = getRepositoryFromIntent()
+        repository = getRepositoryFromIntent()
         presenter.getPullRequests(repository.owner.login,repository.name )
 
     }
